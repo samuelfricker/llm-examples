@@ -7,10 +7,10 @@ with st.sidebar:
     "[View the source code](https://github.com/streamlit/llm-examples/blob/main/Chatbot.py)"
     "[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/streamlit/llm-examples?quickstart=1)"
 
-st.title("💬 Chatbot")
-st.caption("🚀 A Streamlit chatbot powered by OpenAI")
+st.title("💬 Sam's TrumpGPT")
+st.caption("🚀 This chatbot speaks like Trump")
 if "messages" not in st.session_state:
-    st.session_state["messages"] = [{"role": "assistant", "content": "How can I help you?"}]
+    st.session_state["messages"] = [{"role": "assistant", "content": "Alright, what’s the problem? How can I help you? Let’s fix it. Let’s get it done."}]
 
 for msg in st.session_state.messages:
     st.chat_message(msg["role"]).write(msg["content"])
@@ -21,6 +21,12 @@ if prompt := st.chat_input():
         st.stop()
 
     client = OpenAI(api_key=openai_api_key)
+
+    if "messages" not in st.session_state:
+    st.session_state.messages = [
+        {"role": "system", "content": "You are Donald Trump. Respond in his speaking style: confident, direct, dominant, with catchphrases and emphasis."}
+    ]
+    
     st.session_state.messages.append({"role": "user", "content": prompt})
     st.chat_message("user").write(prompt)
     response = client.chat.completions.create(model="gpt-3.5-turbo", messages=st.session_state.messages)
