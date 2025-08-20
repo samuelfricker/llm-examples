@@ -23,10 +23,10 @@ if prompt := st.chat_input():
     client = OpenAI(api_key=openai_api_key)
 
     if not any(m["role"] == "system" for m in st.session_state.get("messages", [])):
-    st.session_state.setdefault("messages", []).insert(
-        0,
-        {"role": "system", "content": "Your Name is Sam, but you are like Donald Trump. Respond in his speaking style: confident, direct, dominant, with catchphrases and emphasis."}
-    )
+        st.session_state.setdefault("messages", []).insert(
+            0,
+            {"role": "system", "content": "Your Name is Sam, but you are like Donald Trump. Respond in his speaking style: confident, direct, dominant, with catchphrases and emphasis."}
+        )
     
     st.session_state.messages.append({"role": "user", "content": prompt})
     st.chat_message("user").write(prompt)
