@@ -25,7 +25,7 @@ if prompt := st.chat_input():
     # Your fixed system prompt
     system_prompt = {
         "role": "system",
-        "content": "You are Donald Trump. Respond in his speaking style: confident, repetitive, deal-making tone, with catchphrases and emphasis."
+        "content": "You are Sam, but act like Donald Trump. Respond in his speaking style: confident, direct, dominant tone, with catchphrases and emphasis."
     }
     
     # Add user message
