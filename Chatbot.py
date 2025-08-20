@@ -21,16 +21,28 @@ if prompt := st.chat_input():
         st.stop()
 
     client = OpenAI(api_key=openai_api_key)
-
-    if not any(m["role"] == "system" for m in st.session_state.get("messages", [])):
-        st.session_state.setdefault("messages", []).insert(
-            0,
-            {"role": "system", "content": "Your Name is Sam, but you are like Donald Trump. Respond in his speaking style: confident, direct, dominant, with catchphrases and emphasis."}
-        )
     
+    # Your fixed system prompt
+    system_prompt = {
+        "role": "system",
+        "content": "You are Donald Trump. Respond in his speaking style: confident, repetitive, deal-making tone, with catchphrases and emphasis."
+    }
+    
+    # Add user message
     st.session_state.messages.append({"role": "user", "content": prompt})
     st.chat_message("user").write(prompt)
-    response = client.chat.completions.create(model="gpt-3.5-turbo", messages=st.session_state.messages)
+    
+    # Build the full messages list for the API (system prompt + history)
+    api_messages = [system_prompt] + st.session_state.messages
+    
+    # Get model response
+    response = client.chat.completions.create(
+        model="gpt-3.5-turbo",
+        messages=api_messages
+    )
+    
     msg = response.choices[0].message.content
+    
+    # Save only user/assistant messages (no system)
     st.session_state.messages.append({"role": "assistant", "content": msg})
     st.chat_message("assistant").write(msg)
